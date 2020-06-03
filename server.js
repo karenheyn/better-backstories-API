@@ -4,10 +4,15 @@ const connectDB = require("./config/db");
 
 const app = express();
 
+//connect DB
 connectDB();
+
+//middleware
+app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => res.send("API running"));
 
+//routes
 app.use("/users", require("./routes/api/users"));
 app.use("/auth", require("./routes/api/auth"));
 
