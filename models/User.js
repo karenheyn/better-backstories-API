@@ -7,19 +7,19 @@ const userSchema = new Schema({
     required: true,
   },
   email: {
-    Type: String,
+    type: String,
     required: true,
     unique: true,
   },
   password: {
-    Type: String,
+    type: String,
     required: true,
   },
   interest: {
-    Type: String,
+    type: String,
   },
   date: {
-    Type: Date,
+    type: Date,
     default: Date.now,
   },
 });
