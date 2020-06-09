@@ -50,7 +50,7 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
+          id: user._id,
         },
       };
 
@@ -63,11 +63,12 @@ router.post(
           res.json({ token });
         }
       );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
 
-      res.send("User registered");
-    } catch (error) {}
-
-    res.send("Success!");
+    // res.send("Success!");
   }
 );
 module.exports = router;
