@@ -6,13 +6,13 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 //require user model
 const User = require("../../models/User");
-// @route GET api/users
+// @route GET /users
 // @desc test route
 // @access public
 //!change to admin later
 router.get("/", (req, res) => res.send("user route"));
 
-// @route POST api/users
+// @route POST /users
 // @desc test route
 // @access public
 router.post(
