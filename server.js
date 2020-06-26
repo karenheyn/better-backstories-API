@@ -13,6 +13,7 @@ app.use(express.json({ extended: false }));
 app.get("/", (req, res) => res.send("API running"));
 
 //routes
+app.use("/pdf", require("./routes/api/pdf"));
 app.use("/users", require("./routes/api/users"));
 app.use("/auth", require("./routes/api/auth"));
 

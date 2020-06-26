@@ -7,7 +7,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-// @route GET api/auth
+// @route GET /auth
 // @desc test route
 // @access public
 router.get("/", auth, async (req, res) => {
