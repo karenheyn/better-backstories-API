@@ -22,6 +22,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  mailingList: {
+    type: Boolean,
+  },
+  pdfPaid: {
+    type: Boolean,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
