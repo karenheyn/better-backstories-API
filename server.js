@@ -3,7 +3,7 @@ const router = express.Router();
 const connectDB = require("./config/db");
 const cors = require("cors");
 const app = express();
-
+const env = require("dotenv").config({ path: "./.env" });
 console.log(process.env.SECRET_MESSAGE);
 
 //connect DB
@@ -26,10 +26,12 @@ app.use((_, res, next) => {
 app.get("/", (req, res) => res.send("API running"));
 
 //routes
+
 app.use("/pay", require("./routes/api/stripe"));
 app.use("/pdf", require("./routes/api/pdf"));
 app.use("/users", require("./routes/api/users"));
 app.use("/auth", require("./routes/api/auth"));
+app.use("/webhook", require("./routes/api/auth"));
 
 const PORT = process.env.PORT || 5000;
 

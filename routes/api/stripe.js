@@ -1,52 +1,54 @@
 const express = require("express");
 const router = express.Router();
-const env = require("dotenv").config({ path: "./.env" });
+const endpointSecret = process.env.WEBHOOK_SECRET;
+console.log(process.env.STRIPE_SECRET_KEY);
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-router.post("/", function (req, res) {
-  console.log(req.body.charge.amount);
-  const token_id = req.body.charge.source;
-  const purchase_price = req.body.charge.amount;
-  const email = req.body.charge.receipt_email;
-  var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-  // `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
-  stripe.charges.create(
+let Intent;
+router.post("/", async (req, res) => {
+  const session = await stripe.checkout.sessions.create(
     {
-      amount: 1000,
-      currency: "usd",
-      source: "tok_visa",
-      description: "My First Test Charge (created for API docs)",
-      receipt_email: email,
+      success_url: "http://localhost:8080/#/success",
+      cancel_url: "http://localhost:8080/#/cancel",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: "price_1H0up7Kc91wTjOOikyrKImZs",
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
     },
-    function (err, charge) {
-      if (err && err.type === "StripeCardError") {
-        res.json({ status: "failure", reason: "card was declined" });
+    function (err, session) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ success: false, reason: "session didnt work" });
       } else {
-        console.log(charge);
-        res.json({ status: "Success!" });
+        console.log(session);
+        Intent = session.payment_intent;
+        console.log(Intent);
+        res.json({ session_id: session.id });
+        // res.status(200).send({ success: true });
       }
     }
   );
-  //console.log(token.id +"\n"+purchase_price);
-
-  //   stripe.charges.create(
-  //     {
-  //       amount: purchase_price, // Amount in cents
-  //       currency: "usd",
-  //       source: token_id,
-  //       description: "Example charge",
-  //     },
-  //     function (err, charge) {
-  //       if (err && err.type === "StripeCardError") {
-  //         // The card has been declined
-  //         res.json({ status: "failure", reason: "card was declined" });
-  //       } else {
-  //         console.log(charge);
-  //         res.json({ status: "success" });
-  //       }
-  //     }
-  //   );
+});
+router.get("/confirm", async (req, res) => {
+  const intentObject = await stripe.paymentIntents.retrieve(Intent, function (
+    err,
+    paymentIntent
+  ) {
+    if (err) {
+      console.log(err);
+      res
+        .status(500)
+        .send({ success: false, reason: "cannot retrieve payment" });
+    } else {
+      console.log(paymentIntent);
+      res.status(200).json({ status: paymentIntent.status });
+      setTimeout(() => (intent = ""), 1000000);
+    }
+  });
 });
 
 module.exports = router;
