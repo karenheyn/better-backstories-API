@@ -7,8 +7,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require("body-parser");
 
 // Match the raw body to content type application/json
-app.post(
-  "/pay-success",
+router.post(
+  "/",
   bodyParser.raw({ type: "application/json" }),
   (request, response) => {
     const sig = request.headers["stripe-signature"];
@@ -16,23 +16,59 @@ app.post(
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret); // NOT WORKING
+      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
-      console.log(request.body);
-      return response.status(400).send(`Webhook Error: ${err.message}`);
+      response.status(400).send(`Webhook Error: ${err.message}`);
     }
-    // Handle the checkout.session.completed event
 
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
-      // Fulfill the purchase...
-      console.log(session);
+    // Handle the event
+    switch (event.type) {
+      case "payment_intent.succeeded":
+        const paymentIntent = event.data.object;
+        console.log("PaymentIntent was successful!");
+        break;
+      case "payment_method.attached":
+        const paymentMethod = event.data.object;
+        console.log("PaymentMethod was attached to a Customer!");
+        break;
+      // ... handle other event types
+      default:
+        // Unexpected event type
+        return response.status(400).end();
     }
 
     // Return a response to acknowledge receipt of the event
     response.json({ received: true });
   }
 );
+
+// Match the raw body to content type application/json
+// router.post(
+//   "/",
+//   bodyParser.raw({ type: "application/json" }),
+//   (request, response) => {
+//     const sig = request.headers["stripe-signature"];
+
+//     let event;
+
+//     try {
+//       event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret); // NOT WORKING
+//     } catch (err) {
+//       console.log(request.body);
+//       return response.status(400).send(`Webhook Error: ${err.message}`);
+//     }
+//     // Handle the checkout.session.completed event
+
+//     if (event.type === "checkout.session.completed") {
+//       const session = event.data.object;
+//       // Fulfill the purchase...
+//       console.log(session);
+//     }
+
+//     // Return a response to acknowledge receipt of the event
+//     response.json({ received: true });
+//   }
+// );
 
 // app.post(
 //   "/webhook",
@@ -60,3 +96,5 @@ app.post(
 //     response.json({ received: true });
 //   }
 // );
+
+module.exports = router;

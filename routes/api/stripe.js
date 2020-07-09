@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const endpointSecret = process.env.WEBHOOK_SECRET;
-console.log(process.env.STRIPE_SECRET_KEY);
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 let Intent;
