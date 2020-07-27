@@ -41,6 +41,7 @@ router.post(
     response.json({ received: true });
   }
 );
+module.exports = router;
 
 // Match the raw body to content type application/json
 // router.post(

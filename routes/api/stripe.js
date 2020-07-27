@@ -3,12 +3,12 @@ const router = express.Router();
 const endpointSecret = process.env.WEBHOOK_SECRET;
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-let Intent;
+// let Intent;
 router.post("/", async (req, res) => {
   const session = await stripe.checkout.sessions.create(
     {
-      success_url: "http://localhost:8080/#/success",
-      cancel_url: "http://localhost:8080/#/cancel",
+      success_url: "http://localhost:8080/success",
+      cancel_url: "http://localhost:8080/cancel",
       payment_method_types: ["card"],
       line_items: [
         {
@@ -26,13 +26,14 @@ router.post("/", async (req, res) => {
         console.log(session);
         Intent = session.payment_intent;
         console.log(Intent);
-        res.json({ session_id: session.id });
+        res.status(200).json({ session_id: session.id, intent: Intent });
         // res.status(200).send({ success: true });
       }
     }
   );
 });
 router.get("/confirm", async (req, res) => {
+  console.log(req);
   const intentObject = await stripe.paymentIntents.retrieve(Intent, function (
     err,
     paymentIntent
@@ -45,7 +46,8 @@ router.get("/confirm", async (req, res) => {
     } else {
       console.log(paymentIntent);
       res.status(200).json({ status: paymentIntent.status });
-      setTimeout(() => (intent = ""), 1000000);
+
+      // setTimeout(() => (intent = ""), 10);
     }
   });
 });
