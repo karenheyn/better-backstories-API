@@ -51,9 +51,10 @@ router.post("/", async (req, res) => {
     }
   );
 });
-router.get("/confirm", async (req, res) => {
-  console.log(req);
-  const intentObject = await stripe.paymentIntents.retrieve(Intent, function (
+router.post("/confirm", async (req, res) => {
+  let intent = req.body.intent;
+
+  const intentObject = await stripe.paymentIntents.retrieve(intent, function (
     err,
     paymentIntent
   ) {

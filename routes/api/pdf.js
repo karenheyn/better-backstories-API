@@ -49,7 +49,7 @@ router.get("/technicalboosterss", async (req, res) => {
 });
 router.get("/basicdeckds", async (req, res) => {
   try {
-    res.sendFile("single_sided/BBS_Basic_Deck_DS.pdf", { root: "pdf" });
+    res.sendFile("double_sided/BBS_Basic_Deck_DS.pdf", { root: "pdf" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -58,7 +58,7 @@ router.get("/basicdeckds", async (req, res) => {
 
 router.get("/cardbundleds", async (req, res) => {
   try {
-    res.sendFile("single_sided/BBS_Card_Bundle_DS.pdf", { root: "pdf" });
+    res.sendFile("double_sided/BBS_Card_Bundle_DS.pdf", { root: "pdf" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -66,7 +66,7 @@ router.get("/cardbundleds", async (req, res) => {
 });
 router.get("/bundlewithboxds", async (req, res) => {
   try {
-    res.sendFile("single_sided/BBS_Full_Bundle_with_Box_DS.pdf", {
+    res.sendFile("double_sided/BBS_Full_Bundle_with_Box_DS.pdf", {
       root: "pdf",
     });
   } catch (err) {
@@ -76,7 +76,7 @@ router.get("/bundlewithboxds", async (req, res) => {
 });
 router.get("/mysticalboosterds", async (req, res) => {
   try {
-    res.sendFile("single_sided/BBS_Mystical_Booster_DS.pdf", { root: "pdf" });
+    res.sendFile("double_sided/BBS_Mystical_Booster_DS.pdf", { root: "pdf" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -84,7 +84,7 @@ router.get("/mysticalboosterds", async (req, res) => {
 });
 router.get("/technicalboosterds", async (req, res) => {
   try {
-    res.sendFile("single_sided/BBS_Technical_Booster_DS.pdf", { root: "pdf" });
+    res.sendFile("double_sided/BBS_Technical_Booster_DS.pdf", { root: "pdf" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
