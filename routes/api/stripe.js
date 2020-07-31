@@ -45,6 +45,7 @@ router.post("/", async (req, res) => {
         res.status(200).json({
           session_id: session.id,
           intent: Intent,
+          item: req.body.product.name,
         });
       }
     }
