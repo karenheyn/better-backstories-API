@@ -10,19 +10,19 @@ router.post("/", async (req, res) => {
   console.log(req.body.product);
   switch (req.body.product.name) {
     case "Basic Deck":
-      amount = "price_1HCUytK8COtkBsd0oegTrLha";
+      amount = "price_1HCaZEK8COtkBsd0qtofdMoN";
       break;
     case "Card Bundle":
-      amount = "price_1HCV2TK8COtkBsd0p9x0FsyM";
+      amount = "price_1HCaZ8K8COtkBsd0HqwWq9U9";
       break;
     case "Full Bundle with Box":
-      amount = "price_1HCV3JK8COtkBsd0xBB3CMBk";
+      amount = "price_1HCaYsK8COtkBsd0j5hj2kce";
       break;
     case "Technical Booster":
-      amount = "price_1HCV4LK8COtkBsd01ArLHsCJ";
+      amount = "price_1HCEQnK8COtkBsd0lnBit6DY";
       break;
     default:
-      amount = "price_1HCV3oK8COtkBsd0ahygDxWf";
+      amount = "price_1HCaYjK8COtkBsd0UnJwQV3B";
   }
   const session = await stripe.checkout.sessions.create(
     {
