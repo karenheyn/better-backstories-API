@@ -26,8 +26,8 @@ router.post("/", async (req, res) => {
   }
   const session = await stripe.checkout.sessions.create(
     {
-      success_url: "http://localhost:8080/success",
-      cancel_url: "http://localhost:8080/cancel",
+      success_url: "http://www.betterbackstories.com/success",
+      cancel_url: "http://www.betterbackstories.com/cancel",
       payment_method_types: ["card"],
       line_items: [
         {
